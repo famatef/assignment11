@@ -1,7 +1,6 @@
 export const create = async ({ model, data, options = {} } = {}) => {
-    
-    return await model.create(data, options);
-    
+    const [doc] = await model.create([data], options);
+    return doc;
 };
 
 export const findOne = async ({ model, filter, options = {} } = {}) => {

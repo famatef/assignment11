@@ -6,29 +6,46 @@ import jwt from "jsonwebtoken";
 import {OAuth2Client} from'google-auth-library';
 import { ProviderEnum } from "../../common/enum/user.enum.js";
 
+
+
 const client = new OAuth2Client();
     
 
 export const signup = async (req, res,next) => {
     
-    const { fname, lname, email, age,gender,phone,password,cpassword } = req.body;
+    const { fname, lname, email, age,gender,phone,password } = req.body;
+    const paths=[]
+    
+    if (req.files?.attachments) {
+  for (const file of req.files.attachments) {
+    paths.push(file.path);
+  }
+}
+else{
+    paths.push(req.files.attachment[0].path)
+}
+    
     if (await userModel.findOne({ email: email.toLowerCase() })) {
         return res.status(409).json({ message: "email already exists" });
     }
-
     const user = await dbservice.create({
         model: userModel,
         data: {
             fname,
             lname,
-            email: email.toLowerCase(),
+            email,
             age,
             gender,
             phone: Encrypt(phone),
             password: await hash(password),
-            cpassword: await hash(cpassword),
-        }
+            profileImage: req.files.attachment[0].path,
+            coverImages: paths
+
+        },
     });
+
+
+     
     
     
     
@@ -97,6 +114,7 @@ export const signin = async (req, res,next) => {
         filter: { email: email.toLowerCase(), provider: "system" }
     });
 
+
     if (!user) {
         throw new Error("email not found");
     }
@@ -123,7 +141,7 @@ export const signin = async (req, res,next) => {
         access_token,
         refresh_token,
     });
-    throw new Error(err.message);
+    
 };
 
 export const getprofile = async (req, res,next) => {

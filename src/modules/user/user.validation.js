@@ -5,7 +5,7 @@ export const signupScehema = {body: Joi.object({
     email: Joi.string().trim().email().required(),
     gender: Joi.string().valid("male", "female").required(),
     password: Joi.string().min(8).required(),
-    cpassword: Joi.string().valid(Joi.ref("password")).required(),
+    
     
     age: Joi.number().min(18).max(100).required(),
     phone: Joi.string().trim().required()
