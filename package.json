@@ -21,6 +21,8 @@
     "mongoose": "^9.10.1",
     "multer": "^2.4.0",
     "mysql2": "^3.24.2",
+    "nodemailer": "^10.1.2",
+    "redis": "^6.3.0",
     "sequelize": "^6.37.8"
   }
 }
