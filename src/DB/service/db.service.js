@@ -14,6 +14,14 @@ export const findOneAndUpdate = async ({ model, filter, update, options = {} } =
         ...options,
     });
 };
+export const find = async ({ model, filter, options = {} } = {}) => {
+    const data = model.find(filter)
+    if (options?.limit)data.limit(options?.limit)
+    if (options?.skip)data.skip(options?.skip)
+    if (options?.sort)data.sort(options?.sort)
+    if (options?.populate)data.populate(options?.populate)
+    return await data.exec()
+};
 
 
 

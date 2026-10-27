@@ -37,11 +37,12 @@ export const authentication = async (req, res, next) => {
         throw new Error('token not valid', { cause: 401 });
     }
 
-    const user = await findOne({ model: userModel, filter: { _id: decoded.userId } });
+    const user = await userModel. finsById(decoded.userId);
 
     if (!user) {
         throw new Error('user not found', { cause: 401 });
     }
+    if(!user?.isConfirmed) throw new Error('user not confirmed', { cause: 401 });
     if(user?.changeCredentialAt?.getTime() > decoded.iat){
         throw new Error('token is expired', { cause: 401 });
     }
