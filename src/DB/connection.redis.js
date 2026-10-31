@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { REDIS_URL } from "../../config/confg.servive.js";
+import { REDIS_URL } from "../../config/config.service.js";
 
 
 
@@ -14,3 +14,4 @@ import { REDIS_URL } from "../../config/confg.servive.js";
       console.log("Redis connection error", err);
      }
     }
+    

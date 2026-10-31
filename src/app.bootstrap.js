@@ -1,10 +1,11 @@
 
 import express from "express";
 import { rateLimit } from "express-rate-limit";
-import { PORT } from "../config/confg.servive.js";
+import { PORT } from "../config/config.service.js"
 
 
 const app = express();
+
 
 const port = PORT;
 import helmet from "helmet";
@@ -21,13 +22,18 @@ import
 const limiter = rateLimit(
     {
         windowMs: 60 * 1000,
+        
         limit:1,
         message:{
             success:false,
             message:"Game over"
+            
+            
         },
     }
 )
+const allowOrigins = ["http://localhost:4000",undefined]
+
 
 export const bootstrap = async () => {
     app.use(cors(
